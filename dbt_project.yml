@@ -1,0 +1,16 @@
+name: 'my_first_project'
+version: '1.0'
+config-version: 2
+
+profile: 'my_first_project'
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_modules"
+
+model-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+snapshot-paths: ["snapshots"]
+seed-paths: ["seeds"]
