@@ -1,1 +1,0 @@
-{"metadata": {"dbt_schema_version": "https://schemas.getdbt.com/dbt/catalog/v1.json", "dbt_version": "1.10.13", "generated_at": "2025-11-03T21:15:56.961123Z", "invocation_id": "8a223058-f13d-4323-838e-18fdf371c79a", "invocation_started_at": "2025-11-03T21:15:56.200415Z", "env": {}}, "nodes": {}, "sources": {}, "errors": null}

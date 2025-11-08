@@ -1,1 +1,0 @@
-{"_invocation_id": "b9b2cd60-720e-4250-aa6d-ce8d6a0355d7", "linked": {"0": {"name": "model.my_first_project.stg_jaffle_shop__customers", "type": "model", "succ": [2]}, "1": {"name": "model.my_first_project.stg_jaffle_shop__orders", "type": "model", "succ": [2]}, "2": {"name": "model.my_first_project.dim_customers", "type": "model"}}}
