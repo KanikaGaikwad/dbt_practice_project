@@ -1,6 +1,5 @@
 name: dbt Job Workflow
 
-# Trigger the workflow on push to main and daily schedule
 on:
   push:
     branches:
@@ -22,49 +21,48 @@ jobs:
         with:
           python-version: '3.10'
 
-      # Step 3: Install dbt + adapter (Snowflake)
+      # Step 3: Install dbt + Snowflake adapter
       - name: Install dbt and Snowflake adapter
-        run: |
-          pip install dbt-snowflake==1.10.13
+        run: pip install dbt-snowflake==1.10.3
 
-      # Step 4: Configure connection (Secrets)
-      - name: Set Snowflake credentials
+      # Step 4: Configure dbt profiles using GitHub Secrets
+      - name: Set up dbt profiles
+        run: |
+          mkdir -p ~/.dbt
+          echo "
+          my_first_project:
+            target: dev
+            outputs:
+              dev:
+                type: snowflake
+                account: $SNOWFLAKE_ACCOUNT
+                user: $SNOWFLAKE_USER
+                password: $SNOWFLAKE_PASSWORD
+                role: $SNOWFLAKE_ROLE
+                database: $SNOWFLAKE_DATABASE
+                warehouse: $SNOWFLAKE_WAREHOUSE
+                schema: $SNOWFLAKE_SCHEMA
+                threads: 1
+                client_session_keep_alive: False
+          " > ~/.dbt/profiles.yml
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
-          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
           SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
-        run: |
-          mkdir -p ~/.dbt
-          echo "
-          snowflake:
-            target: dev
-            outputs:
-              dev:
-                type: snowflake
-                account: bhcjqdq-shb45366 # AWS account + region
-                user: kanikagaikwaddbt
-                password: Kritika@1234567890
-                role: SYSADMIN
-                database: raw
-                warehouse: transforming
-                schema: jaffle_shop
-                threads: 1
-                client_session_keep_alive: False
-          " > ~/.dbt/profiles.yml
 
-      # Step 5: Run dbt deps (install macros/packages)
+      # Step 5: Install dbt dependencies
       - name: Install dbt dependencies
         run: dbt deps
 
-      # Step 6: Run models
+      # Step 6: Run dbt models
       - name: Run dbt models
         run: dbt run
 
-      # Step 7: Run tests
+      # Step 7: Run dbt tests
       - name: Run dbt tests
         run: dbt test
 
