@@ -22,10 +22,10 @@ jobs:
           python-version: '3.10'
 
       # Step 3: Install dbt and Snowflake adapter
-      - name: Install dbt and Snowflake adapter
+      - name: Install dbt
         run: |
           python -m pip install --upgrade pip
-          pip install dbt-snowflake==1.11.0b4
+          pip install "dbt-snowflake==1.10.3"
 
       # Step 4: Set up dbt profiles using GitHub secrets
       - name: Set up dbt profiles
@@ -61,3 +61,4 @@ jobs:
         run: |
           dbt debug
           dbt run
+
